@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Comeback — Bring your customers back. Automatically.</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue-900:#0A1628;
+  --blue-800:#0F2044;
+  --blue-700:#163060;
+  --blue-600:#1E4080;
+  --blue-500:#2756A8;
+  --blue-400:#3A6EC4;
+  --blue-300:#6F9ADA;
+  --blue-200:#A8C3ED;
+  --blue-100:#D4E3F6;
+  --blue-50:#EBF2FB;
+  --amber:#E8A020;
+  --red:#D94040;
+  --green:#1A8C5C;
+  --green-light:#E3F5ED;
+  --border:#1E4080;
+  --border-light:rgba(30,64,128,0.15);
+  --text-primary:#0A1628;
+  --text-secondary:#3A5070;
+  --text-tertiary:#7A96B8;
+  --bg:#F4F7FC;
+  --surface:#FFFFFF;
+  --surface-2:#EBF2FB;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-primary);min-height:100vh}
+
+/* TOPBAR */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;
+  background:var(--blue-900);
+  border-bottom:0.5px solid var(--blue-700);
+}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{
+  width:28px;height:28px;border-radius:8px;
+  background:var(--blue-400);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Instrument Serif',serif;font-style:italic;
+  color:white;font-size:16px;letter-spacing:-0.5px
+}
+.logo-name{
+  font-family:'Instrument Serif',serif;font-style:italic;
+  color:white;font-size:18px;letter-spacing:-0.3px
+}
+.biz-pill{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 12px;
+  border:0.5px solid var(--blue-600);
+  border-radius:8px;
+  background:var(--blue-800);
+  cursor:pointer;transition:background 0.15s;
+  color:var(--blue-100);font-size:12px
+}
+.biz-pill:hover{background:var(--blue-700)}
+.biz-av{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--blue-400);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:500;color:white
+}
+
+/* NAV */
+.nav{
+  display:flex;padding:0 24px;
+  background:var(--blue-900);
+  border-bottom:0.5px solid var(--blue-700);
+}
+.nav-tab{
+  font-size:13px;padding:11px 16px;
+  cursor:pointer;border:none;
+  background:transparent;
+  color:var(--blue-300);
+  border-bottom:2px solid transparent;
+  margin-bottom:-0.5px;
+  font-family:'DM Sans',sans-serif;
+  transition:all 0.15s;white-space:nowrap;
+  display:flex;align-items:center;gap:6px
+}
+.nav-tab.active{color:white;border-bottom-color:var(--blue-300)}
+.nav-tab:hover:not(.active){color:var(--blue-200)}
+.nbadge{
+  font-size:10px;padding:2px 6px;border-radius:10px;
+  background:rgba(232,160,32,0.2);color:var(--amber);font-weight:500
+}
+
+/* MAIN */
+.main{padding:20px 24px;max-width:920px;margin:0 auto}
+.page{display:none}.page.active{display:block}
+
+.sec-label{
+  font-size:10px;font-weight:500;letter-spacing:0.1em;
+  text-transform:uppercase;color:var(--text-tertiary);margin-bottom:10px
+}
+
+/* METRIC CARDS */
+.metrics-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.m-card{
+  background:var(--surface);border-radius:10px;padding:14px 16px;
+  border:0.5px solid var(--border-light);
+}
+.m-label{font-size:11px;color:var(--text-tertiary);margin-bottom:6px}
+.m-val{font-size:26px;font-weight:500;line-height:1;font-family:'DM Mono',monospace}
+.m-sub{font-size:11px;margin-top:4px;color:var(--text-tertiary)}
+.m-val.blue{color:var(--blue-500)}
+.m-val.amber{color:var(--amber)}
+.m-val.red{color:var(--red)}
+.m-val.green{color:var(--green)}
+
+/* PANELS */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.panel{background:var(--surface);border:0.5px solid var(--border-light);border-radius:12px;padding:16px 18px}
+.full-panel{background:var(--surface);border:0.5px solid var(--border-light);border-radius:12px;padding:16px 18px;margin-bottom:14px}
+.p-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px}
+.p-title{font-size:13px;font-weight:500;color:var(--text-primary)}
+
+/* BADGES */
+.badge{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
+.b-blue{background:var(--blue-50);color:var(--blue-600)}
+.b-amber{background:rgba(232,160,32,0.12);color:#A06010}
+.b-red{background:rgba(217,64,64,0.1);color:#A02020}
+.b-green{background:var(--green-light);color:#0F6040}
+.b-gray{background:var(--surface-2);color:var(--text-secondary)}
+
+/* ROWS */
+.row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border-light)}
+.row:last-child{border-bottom:none}
+.av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.av-blue{background:var(--blue-50);color:var(--blue-600)}
+.av-amber{background:rgba(232,160,32,0.12);color:#8C5000}
+.av-red{background:rgba(217,64,64,0.1);color:#902020}
+.av-green{background:var(--green-light);color:#0A5030}
+.ci{flex:1;min-width:0}
+.cn{font-size:13px;font-weight:500;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cm{font-size:11px;color:var(--text-tertiary);margin-top:1px}
+.cr{text-align:right;flex-shrink:0}
+
+/* TABS */
+.tabs{display:flex;gap:3px}
+.tab{
+  font-size:12px;padding:4px 10px;border-radius:20px;
+  cursor:pointer;color:var(--text-secondary);
+  border:none;background:transparent;
+  font-family:'DM Sans',sans-serif;transition:all 0.15s
+}
+.tab.active{background:var(--blue-50);color:var(--blue-600);font-weight:500}
+
+.add-btn{
+  font-size:12px;padding:5px 12px;border-radius:8px;
+  border:0.5px solid var(--border-light);
+  background:transparent;color:var(--text-secondary);
+  cursor:pointer;font-family:'DM Sans',sans-serif;
+  transition:background 0.15s
+}
+.add-btn:hover{background:var(--surface-2)}
+
+/* PULSE */
+.pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:5px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* RECOVERED BANNER */
+.rec-banner{
+  background:linear-gradient(135deg,var(--blue-900) 0%,var(--blue-700) 100%);
+  border-radius:12px;padding:18px 20px;margin-bottom:18px;
+  display:flex;align-items:center;justify-content:space-between;
+  border:0.5px solid var(--blue-600);
+}
+.rec-left{display:flex;align-items:center;gap:14px}
+.rec-icon{
+  width:42px;height:42px;border-radius:10px;
+  background:rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;font-size:20px
+}
+.rec-title{font-size:14px;font-weight:500;color:white}
+.rec-sub{font-size:12px;color:var(--blue-200);margin-top:2px}
+.rec-val{font-size:32px;font-weight:500;color:white;font-family:'DM Mono',monospace;text-align:right}
+.rec-rev{font-size:12px;color:var(--blue-200);text-align:right;margin-top:2px}
+
+/* MSG CARDS */
+.msg-card{
+  border:0.5px solid var(--border-light);border-radius:10px;
+  padding:12px 14px;margin-bottom:8px;
+  background:var(--surface-2)
+}
+.msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.msg-type{font-size:10px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.07em;font-weight:500}
+.msg-body{font-size:12px;color:var(--text-secondary);line-height:1.6;font-style:italic}
+.msg-foot{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.msg-stat{font-size:11px;color:var(--green);font-weight:500}
+.msg-edit{font-size:11px;color:var(--blue-500);cursor:pointer;font-weight:500}
+
+/* BARS */
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bar-label{color:var(--text-tertiary);flex-shrink:0;font-size:11px}
+.bar-track{flex:1;height:6px;background:var(--surface-2);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width 0.5s ease}
+.bar-val{width:28px;text-align:right;color:var(--text-tertiary);font-family:'DM Mono',monospace;font-size:11px}
+
+/* HEATMAP */
+.heatmap-grid{display:grid;grid-template-columns:42px repeat(7,1fr);gap:3px}
+.hm-cell{height:26px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500}
+.hm-label{color:var(--text-tertiary);font-size:10px;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.hm-day{color:var(--text-tertiary);font-size:10px;display:flex;align-items:center;justify-content:center;height:18px}
+
+/* RETENTION */
+.ret-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.ret-label{font-size:12px;color:var(--text-secondary);width:72px;flex-shrink:0}
+.ret-track{flex:1;height:7px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.ret-fill{height:100%;border-radius:4px}
+.ret-val{font-size:11px;font-family:'DM Mono',monospace;color:var(--text-tertiary);width:32px;text-align:right}
+
+/* INSIGHTS */
+.insight-card{
+  border:0.5px solid var(--border-light);border-radius:10px;
+  padding:12px 14px;margin-bottom:8px;
+  display:flex;gap:12px;align-items:flex-start
+}
+.ins-icon{width:28px;height:28px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px}
+.ins-title{font-size:13px;font-weight:500;color:var(--text-primary);margin-bottom:3px}
+.ins-desc{font-size:12px;color:var(--text-secondary);line-height:1.55}
+
+/* ROI */
+.recap-big{font-size:36px;font-weight:500;color:var(--blue-600);font-family:'DM Mono',monospace}
+.recap-label{font-size:13px;color:var(--text-secondary)}
+.recap-div{height:0.5px;background:var(--border-light);margin:14px 0}
+
+/* ANALYTICS SUB-TABS */
+.an-tabs{display:flex;gap:3px;margin-bottom:16px}
+.an-tab{font-size:12px;padding:5px 14px;border-radius:20px;cursor:pointer;color:var(--text-secondary);border:none;background:transparent;font-family:'DM Sans',sans-serif;transition:all 0.15s}
+.an-tab.active{background:var(--blue-50);color:var(--blue-600);font-weight:500}
+.an-section{display:none}.an-section.active{display:block}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(10,22,40,0.6);z-index:100;align-items:flex-start;justify-content:center;padding-top:80px}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border:0.5px solid var(--border-light);border-radius:14px;padding:22px 24px;width:340px;max-width:92%}
+.modal-title{font-size:15px;font-weight:500;color:var(--text-primary);margin-bottom:16px}
+.f-label{font-size:11px;color:var(--text-secondary);margin-bottom:4px;margin-top:12px}
+.f-label:first-of-type{margin-top:0}
+input[type=text],input[type=tel]{
+  width:100%;font-size:13px;font-family:'DM Sans',sans-serif;
+  padding:8px 10px;border:0.5px solid var(--border-light);
+  border-radius:8px;background:var(--bg);color:var(--text-primary);
+  outline:none
+}
+input:focus{border-color:var(--blue-400)}
+.modal-actions{display:flex;gap:8px;margin-top:16px}
+.btn-primary{flex:1;padding:9px;background:var(--blue-600);color:white;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background 0.15s}
+.btn-primary:hover{background:var(--blue-500)}
+.btn-cancel{padding:9px 16px;background:transparent;border:0.5px solid var(--border-light);border-radius:8px;font-size:13px;cursor:pointer;color:var(--text-secondary);font-family:'DM Sans',sans-serif}
+
+/* NOTIF */
+.notif{position:fixed;bottom:22px;right:22px;background:var(--blue-800);color:white;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:500;opacity:0;transform:translateY(8px);transition:all 0.3s ease;z-index:200;pointer-events:none;border:0.5px solid var(--blue-600)}
+.notif.show{opacity:1;transform:translateY(0)}
+
+/* STAGGER ANIMATION */
+.page.active .m-card{animation:fadeUp 0.3s ease both}
+.page.active .m-card:nth-child(1){animation-delay:0.05s}
+.page.active .m-card:nth-child(2){animation-delay:0.1s}
+.page.active .m-card:nth-child(3){animation-delay:0.15s}
+.page.active .m-card:nth-child(4){animation-delay:0.2s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <div class="logo-mark">c</div>
+    <div class="logo-name">comeback</div>
+  </div>
+  <div class="biz-pill" onclick="cycleBiz()">
+    <div class="biz-av" id="bizAv">M</div>
+    <span id="bizName">Mario's Pizza</span>
+    <span style="color:#6F9ADA;font-size:10px;margin-left:2px">▾</span>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nav-tab active" onclick="showPage('engine',this)">Re-engagement</button>
+  <button class="nav-tab" onclick="showPage('analytics',this)">Analytics <span class="nbadge" id="riskBadge">0</span></button>
+</div>
+
+<div class="main">
+
+  <!-- RE-ENGAGEMENT PAGE -->
+  <div class="page active" id="page-engine">
+    <div class="rec-banner">
+      <div class="rec-left">
+        <div class="rec-icon">🔄</div>
+        <div>
+          <div class="rec-title">Customers recovered this month</div>
+          <div class="rec-sub">via automated re-engagement messages</div>
+        </div>
+      </div>
+      <div>
+        <div class="rec-val" id="recoveredVal">—</div>
+        <div class="rec-rev" id="recoveredRev">—</div>
+      </div>
+    </div>
+
+    <div class="metrics-row">
+      <div class="m-card"><div class="m-label">Active customers</div><div class="m-val blue" id="e-active">—</div><div class="m-sub">visited recently</div></div>
+      <div class="m-card"><div class="m-label">At risk</div><div class="m-val amber" id="e-risk">—</div><div class="m-sub" id="e-risk-sub">going quiet</div></div>
+      <div class="m-card"><div class="m-label">Lost</div><div class="m-val red" id="e-lost">—</div><div class="m-sub">need win-back</div></div>
+      <div class="m-card"><div class="m-label">Messages sent</div><div class="m-val blue" id="e-msgs">—</div><div class="m-sub">this month</div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="panel">
+        <div class="p-header"><span class="p-title"><span class="pulse"></span>At-risk alerts</span><span class="badge b-amber" id="riskCount2">—</span></div>
+        <div id="riskList"></div>
+      </div>
+      <div class="panel">
+        <div class="p-header"><span class="p-title">Automated messages</span><span class="badge b-green">live</span></div>
+        <div id="msgList"></div>
+      </div>
+    </div>
+
+    <div class="full-panel">
+      <div class="p-header">
+        <span class="p-title">Activity feed</span>
+        <div class="tabs">
+          <button class="tab active" onclick="switchActTab(this,'all')">All</button>
+          <button class="tab" onclick="switchActTab(this,'sent')">Sent</button>
+          <button class="tab" onclick="switchActTab(this,'recovered')">Recovered</button>
+        </div>
+      </div>
+      <div id="actList"></div>
+    </div>
+  </div>
+
+  <!-- ANALYTICS PAGE -->
+  <div class="page" id="page-analytics">
+    <div class="an-tabs">
+      <button class="an-tab active" onclick="switchAnTab(this,'customers')">Customers</button>
+      <button class="an-tab" onclick="switchAnTab(this,'roi')">ROI recap</button>
+      <button class="an-tab" onclick="switchAnTab(this,'data')">Data</button>
+    </div>
+
+    <!-- CUSTOMERS -->
+    <div class="an-section active" id="an-customers">
+      <div class="full-panel">
+        <div class="p-header">
+          <span class="p-title">All customers</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="tabs" id="custTabs">
+              <button class="tab active" onclick="filterCust(this,'all')">All</button>
+              <button class="tab" onclick="filterCust(this,'active')">Active</button>
+              <button class="tab" onclick="filterCust(this,'risk')">At risk</button>
+              <button class="tab" onclick="filterCust(this,'lost')">Lost</button>
+            </div>
+            <button class="add-btn" onclick="openModal()">+ log visit</button>
+          </div>
+        </div>
+        <div id="custList"></div>
+      </div>
+    </div>
+
+    <!-- ROI -->
+    <div class="an-section" id="an-roi">
+      <div style="font-size:12px;color:var(--text-tertiary);margin-bottom:14px">Auto-emailed to you on the 1st of every month — even if you never log in.</div>
+      <div class="full-panel">
+        <div class="p-header">
+          <span class="p-title">March 2025 · <span id="roiBizName">—</span></span>
+          <span class="badge b-green">sent automatically</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">
+          <span class="recap-big" id="roi-recovered">—</span>
+          <span class="recap-label">customers brought back this month</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:12px" id="roi-rev-line">—</div>
+        <div class="recap-div"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:12px">
+          <div><div style="font-size:11px;color:var(--text-tertiary);margin-bottom:4px">Messages sent</div><div style="font-size:22px;font-weight:500;font-family:'DM Mono',monospace" id="roi-msgs">—</div></div>
+          <div><div style="font-size:11px;color:var(--text-tertiary);margin-bottom:4px">Response rate</div><div style="font-size:22px;font-weight:500;font-family:'DM Mono',monospace;color:var(--green)" id="roi-rate">—</div></div>
+          <div><div style="font-size:11px;color:var(--text-tertiary);margin-bottom:4px">QR check-ins</div><div style="font-size:22px;font-weight:500;font-family:'DM Mono',monospace;color:var(--blue-500)" id="roi-checkins">—</div></div>
+        </div>
+        <div class="recap-div"></div>
+        <div style="font-size:12px;color:var(--text-secondary);line-height:1.7" id="roi-summary">—</div>
+      </div>
+      <div class="full-panel">
+        <div class="p-header"><span class="p-title">Recovery trend</span><span class="badge b-gray">last 4 months</span></div>
+        <div id="trendBars"></div>
+      </div>
+      <div class="full-panel">
+        <div class="p-header"><span class="p-title">Churn risk watch list</span><span class="badge b-amber">act now</span></div>
+        <div id="churnList"></div>
+      </div>
+    </div>
+
+    <!-- DATA -->
+    <div class="an-section" id="an-data">
+      <div class="metrics-row">
+        <div class="m-card"><div class="m-label">Avg order value</div><div class="m-val blue" id="a-aov">—</div><div class="m-sub">per visit</div></div>
+        <div class="m-card"><div class="m-label">Avg visit freq</div><div class="m-val blue" id="a-freq">—</div><div class="m-sub">days between</div></div>
+        <div class="m-card"><div class="m-label">High-value share</div><div class="m-val blue" id="a-toprev">—</div><div class="m-sub">of total revenue</div></div>
+        <div class="m-card"><div class="m-label">At-risk revenue</div><div class="m-val amber" id="a-riskrev">—</div><div class="m-sub">recoverable</div></div>
+      </div>
+      <div class="two-col">
+        <div class="panel"><div class="p-header"><span class="p-title">Visits by day</span></div><div id="dayBars"></div></div>
+        <div class="panel"><div class="p-header"><span class="p-title">Visits by hour</span></div><div id="hourBars"></div></div>
+      </div>
+      <div class="full-panel"><div class="p-header"><span class="p-title">Spend heatmap — day × hour</span><span class="badge b-gray">avg $</span></div><div id="heatmapGrid"></div></div>
+      <div class="two-col">
+        <div class="panel"><div class="p-header"><span class="p-title">Value segments</span></div><div id="segBars"></div></div>
+        <div class="panel"><div class="p-header"><span class="p-title">Cohort retention</span></div><div id="retBars"></div></div>
+      </div>
+      <div class="full-panel"><div class="p-header"><span class="p-title">Insights</span></div><div id="insightCards"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeOut(event)">
+  <div class="modal">
+    <div class="modal-title">Log a customer visit</div>
+    <div class="f-label">Customer name</div><input type="text" id="newName" placeholder="Sofia Reyes"/>
+    <div class="f-label">Phone number</div><input type="tel" id="newPhone" placeholder="+1 (646) 555-0101"/>
+    <div class="f-label">Amount spent ($)</div><input type="text" id="newSpend" placeholder="42"/>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="addCustomer()">Log visit</button>
+    </div>
+  </div>
+</div>
+<div class="notif" id="notif"></div>
+
+<script>
+const BUSINESSES=[
+  {name:"Mario's Pizza",type:"restaurant",riskDays:14,lostDays:30,initial:"M"},
+  {name:"Nova Salon",type:"salon",riskDays:42,lostDays:90,initial:"N"},
+  {name:"Cuts by Dre",type:"barber",riskDays:35,lostDays:75,initial:"C"},
+  {name:"Jade Nails",type:"nails",riskDays:30,lostDays:70,initial:"J"},
+];
+const SEED=[
+  [{name:"Sofia Reyes",lastVisit:5,spend:58,visits:18,ltv:1044,phone:"+1 646 555 0101"},
+   {name:"James Park",lastVisit:3,spend:72,visits:22,ltv:1584,phone:"+1 917 555 0182"},
+   {name:"Maria Chen",lastVisit:18,spend:35,visits:6,ltv:210,phone:"+1 212 555 0134"},
+   {name:"Devon Williams",lastVisit:35,spend:55,visits:9,ltv:495,phone:"+1 347 555 0167"},
+   {name:"Priya Nair",lastVisit:60,spend:40,visits:4,ltv:160,phone:"+1 646 555 0199"},
+   {name:"Kwame Asante",lastVisit:8,spend:62,visits:15,ltv:930,phone:"+1 718 555 0144"},
+   {name:"Lucia Gomez",lastVisit:22,spend:44,visits:7,ltv:308,phone:"+1 917 555 0155"},
+   {name:"Andre Thomas",lastVisit:45,spend:38,visits:3,ltv:114,phone:"+1 212 555 0166"}],
+  [{name:"Aisha Thompson",lastVisit:20,spend:95,visits:14,ltv:1330,phone:"+1 718 555 0123"},
+   {name:"Leo Martinez",lastVisit:10,spend:120,visits:18,ltv:2160,phone:"+1 917 555 0145"},
+   {name:"Chloe Kim",lastVisit:50,spend:85,visits:6,ltv:510,phone:"+1 212 555 0178"},
+   {name:"Raj Patel",lastVisit:100,spend:75,visits:3,ltv:225,phone:"+1 646 555 0156"},
+   {name:"Simone Okoro",lastVisit:15,spend:130,visits:20,ltv:2600,phone:"+1 347 555 0188"},
+   {name:"Zara Ali",lastVisit:8,spend:145,visits:16,ltv:2320,phone:"+1 718 555 0199"}],
+  [{name:"Marcus Lee",lastVisit:12,spend:45,visits:24,ltv:1080,phone:"+1 718 555 0111"},
+   {name:"Carlos Vega",lastVisit:28,spend:40,visits:14,ltv:560,phone:"+1 917 555 0122"},
+   {name:"Tyrone Davis",lastVisit:70,spend:38,visits:4,ltv:152,phone:"+1 212 555 0133"},
+   {name:"Isaiah Grant",lastVisit:5,spend:50,visits:30,ltv:1500,phone:"+1 347 555 0155"},
+   {name:"Jordan Mills",lastVisit:40,spend:36,visits:8,ltv:288,phone:"+1 718 555 0166"}],
+  [{name:"Hana Park",lastVisit:18,spend:65,visits:12,ltv:780,phone:"+1 917 555 0177"},
+   {name:"Mia Torres",lastVisit:8,spend:75,visits:20,ltv:1500,phone:"+1 212 555 0188"},
+   {name:"Grace Liu",lastVisit:35,spend:60,visits:8,ltv:480,phone:"+1 646 555 0199"},
+   {name:"Dana Ross",lastVisit:80,spend:55,visits:3,ltv:165,phone:"+1 718 555 0200"},
+   {name:"Fatima Hassan",lastVisit:25,spend:70,visits:15,ltv:1050,phone:"+1 917 555 0211"}],
+];
+const HOURS=['10a','11a','12p','1p','2p','3p','4p','5p'];
+const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+let bizIdx=0,custFilter='all',actTab='all';
+
+function getStatus(c,biz){if(c.lastVisit<=biz.riskDays*0.7)return'active';if(c.lastVisit<=biz.riskDays)return'active';if(c.lastVisit<=biz.lostDays)return'risk';return'lost';}
+function getTier(c,cs){const s=[...cs].sort((a,b)=>b.ltv-a.ltv),p=s.indexOf(c)/s.length;return p<0.33?'high':p<0.67?'mid':'low';}
+function ini(n){return n.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();}
+function avC(s){return s==='active'?'av-green':s==='risk'?'av-amber':'av-red';}
+function bc(s){return s==='active'?'b-green':s==='risk'?'b-amber':'b-red';}
+function genHeatmap(t){const g=[];for(let h=0;h<8;h++){const r=[];for(let d=0;d<7;d++){let b=30+Math.random()*15;if(t==='restaurant'){if(d>=4)b+=18;if(h===2||h===3)b+=28;if(h===6||h===7)b+=22;}else if(t==='salon'){if(d>=4)b+=25;if(h>=3&&h<=5)b+=18;}else{if(d===5||d===6)b+=30;if(h>=2&&h<=5)b+=12;}r.push(Math.round(b));}g.push(r);}return g;}
+function genDayV(t){const b=[20,17,19,24,36,50,42];return b.map((v,i)=>Math.round(v*(t==='salon'&&i>=4?1.5:t==='barber'&&(i===5||i===6)?1.8:1)+Math.random()*4));}
+function genHourV(t){if(t==='salon')return[2,5,11,17,22,20,18,14];if(t==='barber')return[3,6,13,19,21,19,17,20];return[4,7,17,21,18,15,17,21];}
+
+function render(){
+  const biz=BUSINESSES[bizIdx],cs=SEED[bizIdx];
+  const active=cs.filter(c=>getStatus(c,biz)==='active');
+  const risk=cs.filter(c=>getStatus(c,biz)==='risk');
+  const lost=cs.filter(c=>getStatus(c,biz)==='lost');
+  const recovered=Math.max(1,Math.floor(risk.length*0.4+1));
+  const avgSpend=Math.round(cs.reduce((s,c)=>s+c.spend,0)/cs.length);
+  const msgs=(risk.length+lost.length)*3+5;
+  const riskRev=Math.round(risk.reduce((s,c)=>s+c.ltv*0.3,0)+lost.reduce((s,c)=>s+c.ltv*0.15,0));
+
+  document.getElementById('bizAv').textContent=biz.initial;
+  document.getElementById('bizName').textContent=biz.name;
+  document.getElementById('riskBadge').textContent=risk.length;
+  document.getElementById('riskCount2').textContent=risk.length+' customers';
+  document.getElementById('e-active').textContent=active.length;
+  document.getElementById('e-risk').textContent=risk.length;
+  document.getElementById('e-risk-sub').textContent='msg sends in '+Math.round(biz.riskDays*0.15)+'d';
+  document.getElementById('e-lost').textContent=lost.length;
+  document.getElementById('e-msgs').textContent=msgs;
+  document.getElementById('recoveredVal').textContent=recovered;
+  document.getElementById('recoveredRev').textContent='~$'+Math.round(recovered*avgSpend)+' estimated recovered revenue';
+
+  document.getElementById('riskList').innerHTML=risk.length?risk.map(c=>`
+    <div class="row">
+      <div class="av av-amber">${ini(c.name)}</div>
+      <div class="ci"><div class="cn">${c.name}</div><div class="cm">${c.lastVisit}d since last visit · $${c.spend} avg spend</div></div>
+      <div class="cr"><span class="badge b-amber">at risk</span><div style="font-size:11px;color:var(--text-tertiary);margin-top:3px">msg queued</div></div>
+    </div>`).join(''):`<div style="text-align:center;padding:24px;font-size:13px;color:var(--text-tertiary)">No at-risk customers right now.</div>`;
+
+  document.getElementById('msgList').innerHTML=[
+    {type:'at-risk trigger',body:`"Hey {name}, it's been a while — here's 10% off your next visit."`,target:`${risk.length} queued`,rate:'34% response rate'},
+    {type:'win-back',body:`"We miss you! Come back this week for something special."`,target:`${lost.length} queued`,rate:'18% response rate'},
+  ].map(m=>`<div class="msg-card"><div class="msg-header"><span class="msg-type">${m.type}</span><span class="badge b-green" style="font-size:10px">auto</span></div><div class="msg-body">${m.body}</div><div class="msg-foot"><span class="msg-stat">${m.rate}</span><span class="msg-edit" onclick="notify('Template editor coming soon')">edit</span></div></div>`).join('');
+
+  const ACT=[
+    {name:risk[0]?risk[0].name:'Maria Chen',action:'Re-engagement SMS sent',time:'2h ago',status:'sent',s:'risk'},
+    {name:lost[0]?lost[0].name:'Priya Nair',action:'Win-back SMS scheduled for tonight',time:'4h ago',status:'sent',s:'lost'},
+    {name:active[0]?active[0].name:'James Park',action:'Return visit detected — recovered',time:'yesterday',status:'recovered',s:'active'},
+    {name:active[1]?active[1].name:'Sofia Reyes',action:'Checked in via QR code',time:'2d ago',status:'sent',s:'active'},
+    {name:risk[1]?risk[1].name:'Lucia Gomez',action:'Win-back SMS sent',time:'3d ago',status:'sent',s:'risk'},
+  ];
+  const filt=actTab==='all'?ACT:ACT.filter(a=>a.status===actTab);
+  document.getElementById('actList').innerHTML=filt.map(a=>`
+    <div class="row"><div class="av ${avC(a.s)}">${ini(a.name)}</div><div class="ci"><div class="cn">${a.name}</div><div class="cm">${a.action}</div></div><div class="cr"><span class="badge ${a.status==='recovered'?'b-green':a.status==='sent'?'b-blue':'b-amber'}">${a.status}</span><div style="font-size:11px;color:var(--text-tertiary);margin-top:3px">${a.time}</div></div></div>`).join('');
+
+  renderCusts();
+
+  document.getElementById('roiBizName').textContent=biz.name;
+  document.getElementById('roi-recovered').textContent=recovered;
+  document.getElementById('roi-rev-line').textContent='Estimated $'+Math.round(recovered*avgSpend)+' in recovered revenue, based on $'+avgSpend+' average spend.';
+  document.getElementById('roi-msgs').textContent=msgs;
+  document.getElementById('roi-rate').textContent=Math.round(recovered/msgs*100)+'%';
+  document.getElementById('roi-checkins').textContent=Math.floor(cs.length*0.6);
+  document.getElementById('roi-summary').textContent=`This month Comeback sent ${msgs} automated messages on your behalf. ${recovered} customers who had gone quiet came back — that's an estimated $${Math.round(recovered*avgSpend)} in revenue you would have missed. You currently have ${risk.length} at-risk customers queued for outreach this week.`;
+
+  const tv=[Math.max(1,recovered-2),Math.max(1,recovered-1),recovered,Math.round(recovered*1.3)];
+  const tm=Math.max(...tv);
+  document.getElementById('trendBars').innerHTML=['Jan','Feb','Mar','Apr (proj)'].map((m,i)=>`<div class="bar-row"><div class="bar-label" style="width:72px">${m}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(tv[i]/tm*100)}%;background:${i===3?'#A8C3ED':'#2756A8'}"></div></div><div class="bar-val">${tv[i]}</div></div>`).join('');
+
+  document.getElementById('churnList').innerHTML=risk.slice(0,3).map(c=>`
+    <div class="row"><div class="av av-amber">${ini(c.name)}</div><div class="ci"><div class="cn">${c.name}</div><div class="cm">Last visit ${c.lastVisit}d ago · $${c.ltv} lifetime value</div></div><div class="cr"><span class="badge b-amber">at risk</span><div style="font-size:11px;color:var(--blue-500);margin-top:3px;cursor:pointer" onclick="notify('Message sent!')">send now</div></div></div>`).join('');
+
+  const aov=avgSpend,freq=Math.round(biz.riskDays*0.6);
+  const hC=cs.filter(c=>getTier(c,cs)==='high'),mC=cs.filter(c=>getTier(c,cs)==='mid'),lC=cs.filter(c=>getTier(c,cs)==='low');
+  const hR=hC.reduce((s,c)=>s+c.ltv,0),mR=mC.reduce((s,c)=>s+c.ltv,0),lR=lC.reduce((s,c)=>s+c.ltv,0),tR=hR+mR+lR;
+  document.getElementById('a-aov').textContent='$'+aov;
+  document.getElementById('a-freq').textContent=freq+'d';
+  document.getElementById('a-toprev').textContent=Math.round(hR/tR*100)+'%';
+  document.getElementById('a-riskrev').textContent='$'+riskRev;
+
+  const dV=genDayV(biz.type),hV=genHourV(biz.type),mD=Math.max(...dV),mH=Math.max(...hV);
+  const bD=dV.indexOf(mD),bH=hV.indexOf(mH),wD=dV.indexOf(Math.min(...dV));
+  document.getElementById('dayBars').innerHTML=dV.map((v,i)=>`<div class="bar-row"><div class="bar-label" style="width:28px">${DAYS[i]}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/mD*100)}%;background:${i===bD?'#1E4080':'#6F9ADA'}"></div></div><div class="bar-val">${v}</div></div>`).join('');
+  document.getElementById('hourBars').innerHTML=hV.map((v,i)=>`<div class="bar-row"><div class="bar-label" style="width:28px">${HOURS[i]}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/mH*100)}%;background:${i===bH?'#1E4080':'#6F9ADA'}"></div></div><div class="bar-val">${v}</div></div>`).join('');
+
+  const hm=genHeatmap(biz.type),fl=hm.flat(),mn=Math.min(...fl),mx=Math.max(...fl);
+  document.getElementById('heatmapGrid').innerHTML=`<div class="heatmap-grid"><div></div>${DAYS.map(d=>`<div class="hm-day">${d}</div>`).join('')}${hm.map((row,hi)=>`<div class="hm-label">${HOURS[hi]}</div>${row.map(val=>{const t=(val-mn)/(mx-mn),r=Math.round(235-t*200),g=Math.round(242-t*200),b=Math.round(252-t*80),tc=t>0.6?'white':'var(--text-secondary)';return`<div class="hm-cell" style="background:rgb(${r},${g},${b});color:${tc}">$${val}</div>`;}).join('')}`).join('')}</div>`;
+
+  const segs=[{l:'High value',p:Math.round(hR/tR*100),c:'#1E4080'},{l:'Mid value',p:Math.round(mR/tR*100),c:'#6F9ADA'},{l:'Low value',p:Math.round(lR/tR*100),c:'#D4E3F6'}];
+  document.getElementById('segBars').innerHTML=segs.map(s=>`<div class="bar-row"><div class="bar-label" style="width:64px">${s.l}</div><div class="bar-track"><div class="bar-fill" style="width:${s.p}%;background:${s.c}"></div></div><div class="bar-val">${s.p}%</div></div>`).join('');
+
+  const months=['Jan','Feb','Mar','Apr'],rr=[92,78,64,55];
+  document.getElementById('retBars').innerHTML=months.map((m,i)=>`<div class="ret-row"><div class="ret-label">${m}</div><div class="ret-track"><div class="ret-fill" style="width:${rr[i]}%;background:${rr[i]>75?'#1A8C5C':rr[i]>60?'#E8A020':'#D94040'}"></div></div><div class="ret-val">${rr[i]}%</div></div>`).join('');
+
+  document.getElementById('insightCards').innerHTML=[
+    {icon:'📈',bg:'#EBF2FB',ic:'#1E4080',title:`${DAYS[wD]} is your slowest day — run a promo`,desc:`Send a targeted offer to at-risk customers on ${DAYS[wD]} morning. Estimated recovery: $${Math.round(riskRev*0.35)}.`},
+    {icon:'⭐',bg:'#EBF2FB',ic:'#1E4080',title:`Top ${hC.length} customers drive ${Math.round(hR/tR*100)}% of revenue`,desc:`Average LTV $${Math.round(hR/Math.max(1,hC.length))}. A simple VIP perk keeps them loyal long-term.`},
+    {icon:'⏰',bg:'#EBF2FB',ic:'#1E4080',title:`Peak hour is ${HOURS[bH]} — are you staffed?`,desc:`Traffic spikes at ${HOURS[bH]} on ${DAYS[bD]}. Long wait times cost you repeat visits.`},
+  ].map(i=>`<div class="insight-card"><div class="ins-icon" style="background:${i.bg};color:${i.ic}">${i.icon}</div><div><div class="ins-title">${i.title}</div><div class="ins-desc">${i.desc}</div></div></div>`).join('');
+}
+
+function renderCusts(){
+  const biz=BUSINESSES[bizIdx],cs=SEED[bizIdx];
+  const f=custFilter==='all'?cs:cs.filter(c=>getStatus(c,biz)===custFilter);
+  document.getElementById('custList').innerHTML=f.map(c=>{
+    const s=getStatus(c,biz),dc=s==='active'?'var(--green)':s==='risk'?'var(--amber)':'var(--red)';
+    return`<div class="row"><div class="av ${avC(s)}">${ini(c.name)}</div><div class="ci"><div class="cn">${c.name}</div><div class="cm">${c.visits} visits · ${c.phone}</div></div><div class="cr"><div style="font-size:12px;font-family:'DM Mono',monospace;font-weight:500;color:${dc}">${c.lastVisit}d ago</div><div style="font-size:11px;color:var(--text-tertiary);margin-top:2px">$${c.spend} avg · $${c.ltv} LTV</div></div></div>`;
+  }).join('');
+}
+
+function switchActTab(el,t){actTab=t;document.querySelectorAll('#page-engine .tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');render();}
+function switchAnTab(el,id){document.querySelectorAll('.an-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.an-section').forEach(s=>s.classList.remove('active'));el.classList.add('active');document.getElementById('an-'+id).classList.add('active');}
+function showPage(id,el){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.getElementById('page-'+id).classList.add('active');el.classList.add('active');}
+function filterCust(el,f){custFilter=f;document.querySelectorAll('#custTabs .tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');renderCusts();}
+function cycleBiz(){bizIdx=(bizIdx+1)%BUSINESSES.length;render();notify('Switched to '+BUSINESSES[bizIdx].name);}
+function openModal(){document.getElementById('overlay').classList.add('open');setTimeout(()=>document.getElementById('newName').focus(),100);}
+function closeModal(){document.getElementById('overlay').classList.remove('open');['newName','newPhone','newSpend'].forEach(id=>document.getElementById(id).value='');}
+function closeOut(e){if(e.target===document.getElementById('overlay'))closeModal();}
+function addCustomer(){
+  const name=document.getElementById('newName').value.trim();
+  if(!name){document.getElementById('newName').focus();return;}
+  const phone=document.getElementById('newPhone').value.trim()||'+1 000 555 0000';
+  const spend=parseInt(document.getElementById('newSpend').value)||35;
+  SEED[bizIdx].unshift({name,phone,lastVisit:0,spend,visits:1,ltv:spend});
+  closeModal();render();notify(name+' logged — marked active');
+}
+function notify(msg){const n=document.getElementById('notif');n.textContent=msg;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),2500);}
+render();
+</script>
+</body>
+</html>

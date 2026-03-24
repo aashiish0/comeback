@@ -43,7 +43,7 @@ The core product. At-risk alerts, automated message queue, live activity feed sh
 
 - [ ] Supabase database integration — persistent customer data
 - [ ] Twilio SMS — live automated messaging
-- [ ] QR code check-in — customers self-log on the way out
+- [ ] QR code check-in — customers self-login
 - [ ] Stripe subscriptions — billing and plan management
 - [ ] Multi-location support
 
@@ -62,7 +62,7 @@ The core product. At-risk alerts, automated message queue, live activity feed sh
 ## Built by
 
 Aashish — based in New York City.  
-Questions? reach out at hello@getcomeback.com
+Questions? reach out at agat2377@gmail.com or (703)338-6312
 
 ---
 

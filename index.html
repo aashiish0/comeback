@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Comeback — Bring your clients back. Automatically.</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --b900:#0A1628;--b800:#0F2044;--b700:#163060;--b600:#1E4080;
+  --b500:#2756A8;--b400:#3A6EC4;--b300:#6F9ADA;--b200:#A8C3ED;
+  --b100:#D4E3F6;--b50:#EBF2FB;
+  --amber:#E8A020;--amber-bg:rgba(232,160,32,0.12);--amber-tx:#8C5800;
+  --red:#D94040;--red-bg:rgba(217,64,64,0.1);--red-tx:#A02020;
+  --green:#1A8C5C;--green-bg:#E3F5ED;--green-tx:#0F6040;
+  --tx1:#0A1628;--tx2:#3A5070;--tx3:#7A96B8;
+  --bg:#F4F7FC;--surface:#fff;--surface2:#EBF2FB;
+  --bd:rgba(30,64,128,0.14);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx1);min-height:100vh;font-size:15px}
+.mono{font-family:'DM Mono',monospace}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;background:var(--b900);position:sticky;top:0;z-index:50}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-mark{width:30px;height:30px;border-radius:9px;background:var(--b400);display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-style:italic;color:#fff;font-size:17px}
+.logo-name{font-family:'Instrument Serif',serif;font-style:italic;color:#fff;font-size:19px;letter-spacing:-0.3px}
+.shop-pill{display:flex;align-items:center;gap:7px;padding:7px 12px;border:0.5px solid var(--b600);border-radius:9px;background:var(--b800);cursor:pointer;color:var(--b100);font-size:12px;min-height:38px}
+.shop-pill:active{background:var(--b700)}
+.shop-av{width:20px;height:20px;border-radius:50%;background:var(--b400);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#fff}
+
+/* NAV */
+.nav{display:flex;background:var(--b900);border-bottom:0.5px solid var(--b700);overflow-x:auto;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav-tab{font-size:13px;padding:12px 16px;cursor:pointer;border:none;background:transparent;color:var(--b300);border-bottom:2px solid transparent;font-family:'DM Sans',sans-serif;white-space:nowrap;display:flex;align-items:center;gap:6px;min-height:44px}
+.nav-tab.active{color:#fff;border-bottom-color:var(--b300);font-weight:500}
+.nbadge{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--amber-bg);color:var(--amber);font-weight:600}
+
+/* BARBER CHIPS */
+.chips-wrap{padding:12px 16px 0;display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;max-width:920px;margin:0 auto}
+.chips-wrap::-webkit-scrollbar{display:none}
+.chip{font-size:12px;padding:7px 14px;border-radius:20px;border:0.5px solid var(--bd);background:var(--surface);color:var(--tx2);cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;min-height:34px;font-weight:500}
+.chip.active{background:var(--b600);color:#fff;border-color:var(--b600)}
+
+/* LAYOUT */
+.main{padding:14px 16px 32px;max-width:920px;margin:0 auto}
+.page{display:none}.page.active{display:block}
+.sec-label{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:10px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--b900) 0%,var(--b600) 100%);border-radius:14px;padding:18px;margin-bottom:14px;color:#fff}
+.hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.hero-title{font-size:13px;font-weight:500;color:var(--b100)}
+.hero-val{font-size:40px;font-weight:600;font-family:'DM Mono',monospace;line-height:1.1;margin-top:2px}
+.hero-rev{font-size:12px;color:var(--b200);margin-top:3px}
+.hero-icon{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.hero-margin{margin-top:14px;padding-top:12px;border-top:0.5px solid rgba(255,255,255,0.15);font-size:12px;color:var(--b100);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.hm-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+@media(min-width:720px){.metrics{grid-template-columns:repeat(4,1fr)}}
+.m-card{background:var(--surface);border-radius:12px;padding:13px 14px;border:0.5px solid var(--bd)}
+.m-label{font-size:11px;color:var(--tx3);margin-bottom:5px}
+.m-val{font-size:25px;font-weight:600;line-height:1;font-family:'DM Mono',monospace}
+.m-sub{font-size:10px;margin-top:4px;color:var(--tx3)}
+.c-blue{color:var(--b500)}.c-amber{color:var(--amber)}.c-red{color:var(--red)}.c-green{color:var(--green)}
+
+/* PANELS */
+.cols{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px}
+@media(min-width:720px){.cols{grid-template-columns:1fr 1fr}}
+.panel{background:var(--surface);border:0.5px solid var(--bd);border-radius:13px;padding:15px 16px;margin-bottom:12px}
+.cols .panel{margin-bottom:0}
+.p-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px;flex-wrap:wrap}
+.p-title{font-size:13px;font-weight:600}
+
+.badge{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600;white-space:nowrap}
+.bg-blue{background:var(--b50);color:var(--b600)}
+.bg-amber{background:var(--amber-bg);color:var(--amber-tx)}
+.bg-red{background:var(--red-bg);color:var(--red-tx)}
+.bg-green{background:var(--green-bg);color:var(--green-tx)}
+.bg-gray{background:var(--surface2);color:var(--tx2)}
+
+/* CLIENT ROWS */
+.row{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:0.5px solid var(--bd)}
+.row:last-child{border-bottom:none}
+.av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.av-g{background:var(--green-bg);color:var(--green-tx)}
+.av-a{background:var(--amber-bg);color:var(--amber-tx)}
+.av-r{background:var(--red-bg);color:var(--red-tx)}
+.av-b{background:var(--b50);color:var(--b600)}
+.ci{flex:1;min-width:0}
+.cn{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cm{font-size:11px;color:var(--tx3);margin-top:2px;line-height:1.4}
+.cy{font-size:11px;margin-top:2px;font-weight:500}
+.cr{text-align:right;flex-shrink:0}
+.send-btn{font-size:11px;padding:7px 13px;border-radius:8px;border:none;background:var(--b600);color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;min-height:32px;margin-top:4px}
+.send-btn:active{background:var(--b500)}
+.tier-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 8px;border-radius:12px}
+
+/* MESSAGE CARDS */
+.msg-card{border:0.5px solid var(--bd);border-radius:11px;padding:13px 14px;margin-bottom:9px;background:var(--surface2)}
+.msg-card:last-child{margin-bottom:0}
+.msg-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;gap:8px}
+.msg-tier{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em}
+.msg-body{font-size:13px;color:var(--tx2);line-height:1.6;font-style:italic}
+.msg-foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:6px}
+.msg-rate{font-size:11px;font-weight:600;color:var(--green)}
+.msg-cost{font-size:11px;font-weight:500}
+
+/* SLOW DAY */
+.slow-card{background:linear-gradient(135deg,#163060,#2756A8);border-radius:13px;padding:16px;margin-bottom:12px;color:#fff}
+.slow-head{display:flex;align-items:flex-start;gap:12px}
+.slow-icon{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,0.13);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.slow-title{font-size:14px;font-weight:600}
+.slow-desc{font-size:12px;color:var(--b100);margin-top:4px;line-height:1.55}
+.slow-btn{margin-top:12px;width:100%;padding:11px;border-radius:9px;border:none;background:#fff;color:var(--b700);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;min-height:42px}
+.slow-btn:active{background:var(--b50)}
+
+/* TABS */
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;color:var(--tx2);border:none;background:transparent;font-family:'DM Sans',sans-serif;min-height:32px}
+.tab.active{background:var(--b50);color:var(--b600);font-weight:600}
+
+/* AN SUBTABS */
+.an-tabs{display:flex;gap:5px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none}
+.an-tabs::-webkit-scrollbar{display:none}
+.an-tab{font-size:13px;padding:8px 16px;border-radius:22px;cursor:pointer;color:var(--tx2);border:0.5px solid var(--bd);background:var(--surface);font-family:'DM Sans',sans-serif;white-space:nowrap;min-height:38px;font-weight:500}
+.an-tab.active{background:var(--b600);color:#fff;border-color:var(--b600)}
+.an-sec{display:none}.an-sec.active{display:block}
+
+/* QR */
+.qr-wrap{text-align:center;padding:10px 0 6px}
+.qr-box{width:150px;height:150px;margin:0 auto 14px;border:0.5px solid var(--bd);border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--surface2);padding:14px}
+.qr-title{font-size:16px;font-weight:600;margin-bottom:5px}
+.qr-sub{font-size:12px;color:var(--tx2);line-height:1.55;max-width:300px;margin:0 auto}
+.qr-actions{display:flex;gap:8px;justify-content:center;margin-top:14px}
+.qr-btn{font-size:12px;padding:10px 18px;border-radius:9px;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;min-height:40px}
+.qbp{background:var(--b600);color:#fff;border:none}
+.qbs{background:transparent;border:0.5px solid var(--bd);color:var(--tx2)}
+.qr-stat{display:flex;justify-content:space-between;font-size:13px;color:var(--tx2);padding:10px 0;border-top:0.5px solid var(--bd)}
+.qr-stat b{font-family:'DM Mono',monospace}
+
+/* PHONE MOCK */
+.phone-zone{background:var(--surface2);border-radius:13px;padding:16px;margin-top:4px}
+.pz-label{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:12px;text-align:center}
+.phone{background:var(--surface);border:0.5px solid var(--bd);border-radius:18px;padding:18px 16px;max-width:280px;margin:0 auto;box-shadow:0 4px 16px rgba(10,22,40,0.08)}
+.ph-shop{font-size:15px;font-weight:600;text-align:center}
+.ph-tag{font-size:11px;color:var(--tx3);text-align:center;margin:3px 0 14px}
+.ph-label{font-size:11px;color:var(--tx2);margin-bottom:4px;margin-top:10px}
+.ph-input{width:100%;padding:10px;border:0.5px solid var(--bd);border-radius:9px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx1);outline:none}
+.ph-input:focus{border-color:var(--b400)}
+.ph-btn{width:100%;padding:12px;background:var(--b600);color:#fff;border:none;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:14px;min-height:44px}
+.ph-opt{font-size:9px;color:var(--tx3);text-align:center;margin-top:9px;line-height:1.5}
+.ph-success{display:none;text-align:center;padding:18px 0}
+.ph-check{width:52px;height:52px;border-radius:50%;background:var(--green-bg);color:var(--green);font-size:26px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.ph-welcome{font-size:16px;font-weight:600;color:var(--green-tx)}
+.ph-msg{font-size:12px;color:var(--tx2);margin-top:4px}
+
+/* BARS */
+.bar-row{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+.bar-label{color:var(--tx3);flex-shrink:0;font-size:11px}
+.bar-track{flex:1;height:7px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease}
+.bar-val{width:30px;text-align:right;color:var(--tx3);font-family:'DM Mono',monospace;font-size:11px}
+
+/* HEATMAP */
+.hm-grid{display:grid;grid-template-columns:38px repeat(7,1fr);gap:3px}
+.hm-cell{height:25px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600}
+.hm-lab{color:var(--tx3);font-size:9px;display:flex;align-items:center;justify-content:flex-end;padding-right:5px}
+.hm-day{color:var(--tx3);font-size:9px;display:flex;align-items:center;justify-content:center;height:16px}
+
+/* RETENTION */
+.ret-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.ret-lab{font-size:12px;color:var(--tx2);width:64px;flex-shrink:0}
+.ret-track{flex:1;height:8px;background:var(--surface2);border-radius:5px;overflow:hidden}
+.ret-fill{height:100%;border-radius:5px}
+.ret-val{font-size:11px;font-family:'DM Mono',monospace;color:var(--tx3);width:32px;text-align:right}
+
+/* INSIGHTS */
+.ins-card{border:0.5px solid var(--bd);border-radius:11px;padding:13px 14px;margin-bottom:9px;display:flex;gap:12px;align-items:flex-start}
+.ins-card:last-child{margin-bottom:0}
+.ins-ic{width:32px;height:32px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--b50)}
+.ins-ti{font-size:13px;font-weight:600;margin-bottom:3px}
+.ins-de{font-size:12px;color:var(--tx2);line-height:1.55}
+
+/* ROI */
+.roi-big{font-size:40px;font-weight:600;color:var(--b600);font-family:'DM Mono',monospace}
+.roi-div{height:0.5px;background:var(--bd);margin:13px 0}
+.roi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:720px){.roi-grid{grid-template-columns:repeat(4,1fr)}}
+.roi-cell-lab{font-size:11px;color:var(--tx3);margin-bottom:4px}
+.roi-cell-val{font-size:21px;font-weight:600;font-family:'DM Mono',monospace}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(10,22,40,0.6);z-index:100;align-items:flex-end;justify-content:center}
+@media(min-width:720px){.overlay{align-items:center}}
+.overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:18px 18px 0 0;padding:22px 20px 28px;width:100%;max-width:420px}
+@media(min-width:720px){.modal{border-radius:16px;padding:24px}}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:14px}
+.f-label{font-size:11px;color:var(--tx2);margin-bottom:5px;margin-top:12px}
+.f-label:first-of-type{margin-top:0}
+.f-input{width:100%;font-size:15px;font-family:'DM Sans',sans-serif;padding:11px 12px;border:0.5px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx1);outline:none}
+.f-input:focus{border-color:var(--b400)}
+select.f-input{appearance:none}
+.modal-acts{display:flex;gap:9px;margin-top:18px}
+.btn-p{flex:1;padding:13px;background:var(--b600);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;min-height:46px}
+.btn-c{padding:13px 18px;background:transparent;border:0.5px solid var(--bd);border-radius:10px;font-size:14px;cursor:pointer;color:var(--tx2);font-family:'DM Sans',sans-serif;min-height:46px}
+
+/* NOTIF */
+.notif{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--b800);color:#fff;padding:11px 18px;border-radius:11px;font-size:13px;font-weight:500;opacity:0;transition:all 0.3s ease;z-index:200;pointer-events:none;border:0.5px solid var(--b600);white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+.notif.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* PULSE + ANIM */
+.pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:6px;animation:pu 2s infinite}
+@keyframes pu{0%,100%{opacity:1}50%{opacity:0.3}}
+.page.active>*{animation:fadeUp 0.3s ease both}
+.page.active>*:nth-child(2){animation-delay:0.05s}
+.page.active>*:nth-child(3){animation-delay:0.1s}
+.page.active>*:nth-child(4){animation-delay:0.15s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.add-btn{font-size:12px;padding:7px 13px;border-radius:9px;border:0.5px solid var(--bd);background:transparent;color:var(--tx2);cursor:pointer;font-family:'DM Sans',sans-serif;min-height:34px;font-weight:500}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo"><div class="logo-mark">c</div><div class="logo-name">comeback</div></div>
+  <div class="shop-pill" onclick="cycleShop()">
+    <div class="shop-av" id="shopAv">C</div>
+    <span id="shopName">Cuts by Dre</span>
+    <span style="color:var(--b300);font-size:10px">▾</span>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nav-tab active" onclick="showPage('home',this)">Re-engagement</button>
+  <button class="nav-tab" onclick="showPage('qr',this)">QR check-in</button>
+  <button class="nav-tab" onclick="showPage('analytics',this)">Analytics <span class="nbadge" id="navBadge">0</span></button>
+</div>
+
+<div class="chips-wrap" id="barberChips"></div>
+
+<div class="main">
+
+<!-- ============ HOME / RE-ENGAGEMENT ============ -->
+<div class="page active" id="page-home">
+
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="hero-title">Clients brought back this month</div>
+        <div class="hero-val" id="heroVal">—</div>
+        <div class="hero-rev" id="heroRev">—</div>
+      </div>
+      <div class="hero-icon">💈</div>
+    </div>
+    <div class="hero-margin" id="heroMargin"></div>
+  </div>
+
+  <div class="metrics">
+    <div class="m-card"><div class="m-label">Active clients</div><div class="m-val c-green" id="mActive">—</div><div class="m-sub">on their usual cycle</div></div>
+    <div class="m-card"><div class="m-label">Overdue</div><div class="m-val c-amber" id="mOverdue">—</div><div class="m-sub">free reminder · no discount</div></div>
+    <div class="m-card"><div class="m-label">Lapsed</div><div class="m-val c-red" id="mLapsed">—</div><div class="m-sub">promo win-back</div></div>
+    <div class="m-card"><div class="m-label">Texts sent</div><div class="m-val c-blue" id="mTexts">—</div><div class="m-sub">this month</div></div>
+  </div>
+
+  <div class="panel">
+    <div class="p-head">
+      <span class="p-title"><span class="pulse"></span>Needs attention</span>
+      <span class="badge bg-amber" id="attnCount">—</span>
+    </div>
+    <div id="attnList"></div>
+  </div>
+
+  <div class="slow-card" id="slowCard"></div>
+
+  <div class="cols">
+    <div class="panel">
+      <div class="p-head"><span class="p-title">Automated texts</span><span class="badge bg-green">live</span></div>
+      <div id="msgList"></div>
+    </div>
+    <div class="panel">
+      <div class="p-head">
+        <span class="p-title">Activity feed</span>
+        <div class="tabs">
+          <button class="tab active" onclick="setAct(this,'all')">All</button>
+          <button class="tab" onclick="setAct(this,'sent')">Sent</button>
+          <button class="tab" onclick="setAct(this,'recovered')">Recovered</button>
+        </div>
+      </div>
+      <div id="actList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ QR CHECK-IN ============ -->
+<div class="page" id="page-qr">
+  <div class="cols">
+    <div class="panel">
+      <div class="p-head"><span class="p-title">Your check-in QR code</span><span class="badge bg-green">active</span></div>
+      <div class="qr-wrap">
+        <div class="qr-box" id="qrBox"></div>
+        <div class="qr-title" id="qrShop">—</div>
+        <div class="qr-sub">Tape this next to each chair or at the register. Clients scan on their way out — name and number go straight into your book. Zero work for you.</div>
+        <div class="qr-actions">
+          <button class="qr-btn qbp" onclick="notify('QR code downloaded')">Download PNG</button>
+          <button class="qr-btn qbs" onclick="notify('Link copied')">Copy link</button>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <div class="qr-stat"><span>Scans this month</span><b id="qrScans">—</b></div>
+        <div class="qr-stat"><span>New clients added</span><b id="qrNew" style="color:var(--green)">—</b></div>
+        <div class="qr-stat"><span>Returning check-ins</span><b id="qrRet">—</b></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="p-head"><span class="p-title">What your client sees</span><span class="badge bg-gray">live preview</span></div>
+      <div class="phone-zone">
+        <div class="pz-label">client check-in screen</div>
+        <div class="phone">
+          <div id="phForm">
+            <div class="ph-shop" id="phShop">—</div>
+            <div class="ph-tag">Check in · takes 10 seconds</div>
+            <div class="ph-label">Your name</div>
+            <input class="ph-input" id="phName" type="text" placeholder="Marcus Lee"/>
+            <div class="ph-label">Phone number</div>
+            <input class="ph-input" id="phPhone" type="tel" placeholder="+1 (347) 555-0101"/>
+            <button class="ph-btn" onclick="phCheckin()">Check in</button>
+            <div class="ph-opt">By checking in you agree to get occasional texts from this shop. Reply STOP anytime to opt out.</div>
+          </div>
+          <div class="ph-success" id="phSuccess">
+            <div class="ph-check">✓</div>
+            <div class="ph-welcome" id="phWelcome">—</div>
+            <div class="ph-msg">You're checked in. See you next time.</div>
+            <button class="qr-btn qbs" style="margin-top:14px" onclick="phReset()">Try again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="p-head"><span class="p-title">Where to put it</span></div>
+    <div style="display:grid;grid-template-columns:1fr;gap:9px" id="qrTips"></div>
+  </div>
+</div>
+
+<!-- ============ ANALYTICS ============ -->
+<div class="page" id="page-analytics">
+  <div class="an-tabs">
+    <button class="an-tab active" onclick="setAn(this,'clients')">Clients</button>
+    <button class="an-tab" onclick="setAn(this,'roi')">ROI recap</button>
+    <button class="an-tab" onclick="setAn(this,'data')">Data</button>
+  </div>
+
+  <!-- CLIENTS -->
+  <div class="an-sec active" id="an-clients">
+    <div class="panel">
+      <div class="p-head">
+        <span class="p-title">Client book</span>
+        <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+          <div class="tabs" id="statusTabs">
+            <button class="tab active" onclick="setCFilter(this,'all')">All</button>
+            <button class="tab" onclick="setCFilter(this,'active')">Active</button>
+            <button class="tab" onclick="setCFilter(this,'overdue')">Overdue</button>
+            <button class="tab" onclick="setCFilter(this,'lapsed')">Lapsed</button>
+          </div>
+          <button class="add-btn" onclick="openModal()">+ log visit</button>
+        </div>
+      </div>
+      <div id="clientList"></div>
+    </div>
+  </div>
+
+  <!-- ROI -->
+  <div class="an-sec" id="an-roi">
+    <div style="font-size:12px;color:var(--tx3);margin-bottom:12px">Auto-emailed to you on the 1st of every month — even if you never open the app.</div>
+    <div class="panel">
+      <div class="p-head"><span class="p-title">March 2026 · <span id="roiShop">—</span></span><span class="badge bg-green">sent automatically</span></div>
+      <div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap">
+        <span class="roi-big" id="roiCount">—</span>
+        <span style="font-size:13px;color:var(--tx2)">clients brought back this month</span>
+      </div>
+      <div style="font-size:12px;color:var(--tx2);margin-top:6px" id="roiRevLine">—</div>
+      <div class="roi-div"></div>
+      <div class="roi-grid">
+        <div><div class="roi-cell-lab">Texts sent</div><div class="roi-cell-val" id="roiTexts">—</div></div>
+        <div><div class="roi-cell-lab">Response rate</div><div class="roi-cell-val c-green" id="roiRate">—</div></div>
+        <div><div class="roi-cell-lab">Free reminders</div><div class="roi-cell-val c-green" id="roiFree">—</div></div>
+        <div><div class="roi-cell-lab">Promo win-backs</div><div class="roi-cell-val c-amber" id="roiPromo">—</div></div>
+      </div>
+      <div class="roi-div"></div>
+      <div style="font-size:13px;color:var(--tx2);line-height:1.7" id="roiSummary">—</div>
+    </div>
+    <div class="panel">
+      <div class="p-head"><span class="p-title">Recovery trend</span><span class="badge bg-gray">last 4 months</span></div>
+      <div id="trendBars"></div>
+    </div>
+    <div class="panel">
+      <div class="p-head"><span class="p-title">Watch list — money walking out the door</span><span class="badge bg-amber">act now</span></div>
+      <div id="watchList"></div>
+    </div>
+  </div>
+
+  <!-- DATA -->
+  <div class="an-sec" id="an-data">
+    <div class="metrics">
+      <div class="m-card"><div class="m-label">Avg cut price</div><div class="m-val c-blue" id="dAov">—</div><div class="m-sub">per visit</div></div>
+      <div class="m-card"><div class="m-label">Avg cycle</div><div class="m-val c-blue" id="dCycle">—</div><div class="m-sub">days between cuts</div></div>
+      <div class="m-card"><div class="m-label">Top regulars</div><div class="m-val c-blue" id="dTopShare">—</div><div class="m-sub">of total revenue</div></div>
+      <div class="m-card"><div class="m-label">At-risk revenue</div><div class="m-val c-amber" id="dRiskRev">—</div><div class="m-sub">recoverable</div></div>
+    </div>
+    <div class="cols">
+      <div class="panel"><div class="p-head"><span class="p-title">Visits by day</span></div><div id="dayBars"></div></div>
+      <div class="panel"><div class="p-head"><span class="p-title">Visits by hour</span></div><div id="hourBars"></div></div>
+    </div>
+    <div class="panel"><div class="p-head"><span class="p-title">Spend heatmap — day × hour</span><span class="badge bg-gray">avg $</span></div><div id="heatmap"></div></div>
+    <div class="cols">
+      <div class="panel"><div class="p-head"><span class="p-title">Client value segments</span></div><div id="segBars"></div></div>
+      <div class="panel"><div class="p-head"><span class="p-title">Cohort retention</span></div><div id="retBars"></div></div>
+    </div>
+    <div class="panel"><div class="p-head"><span class="p-title">Smart insights</span></div><div id="insights"></div></div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title">Log a visit</div>
+    <div class="f-label">Client name</div>
+    <input class="f-input" type="text" id="mName" placeholder="Marcus Lee"/>
+    <div class="f-label">Phone number</div>
+    <input class="f-input" type="tel" id="mPhone" placeholder="+1 (347) 555-0101"/>
+    <div class="f-label">Barber</div>
+    <select class="f-input" id="mBarber"></select>
+    <div class="f-label">Amount ($)</div>
+    <input class="f-input" type="text" id="mSpend" placeholder="35" inputmode="numeric"/>
+    <div class="modal-acts">
+      <button class="btn-c" onclick="closeModal()">Cancel</button>
+      <button class="btn-p" onclick="logVisit()">Log visit</button>
+    </div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+
+<script>
+/* ============ COMEBACK — barbershop re-engagement ============ */
+
+/* ---------- DATA ---------- */
+const SHOPS = [
+  {
+    name: "Cuts by Dre", initial: "C",
+    barbers: ["Dre", "Marcus", "Tone"],
+    clients: [
+      // name, barber, service, cadence(avg gap days), lastVisit(days ago), spend, visits
+      cl("Isaiah Grant","Dre","Fade",16,12,35,30),
+      cl("Jordan Mills","Dre","Taper",21,25,30,14),
+      cl("Carlos Vega","Dre","Fade + beard",18,40,45,18),
+      cl("Malik Johnson","Dre","Lineup",14,10,25,22),
+      cl("Tyrone Davis","Marcus","Fade",17,52,35,9),
+      cl("Kwame Asante","Marcus","Fade",15,8,40,26),
+      cl("Devon Brooks","Marcus","Taper + beard",22,26,50,11),
+      cl("Andre Thomas","Marcus","Kids cut",28,30,20,6),
+      cl("Luis Ramirez","Tone","Fade",16,14,35,19),
+      cl("Jamal Wright","Tone","Lineup",13,29,25,15),
+      cl("Chris Okafor","Tone","Fade + beard",19,60,45,7),
+      cl("Eddie Santos","Tone","Taper",20,18,30,12),
+      cl("Ray Coleman","Dre","Fade",15,33,35,10),
+      cl("Marcus Lee","Tone","Fade",18,5,38,24),
+    ]
+  },
+  {
+    name: "Fade Factory", initial: "F",
+    barbers: ["Vic", "Smooth"],
+    clients: [
+      cl("Darius Bell","Vic","Fade",14,9,30,28),
+      cl("Omar Hassan","Vic","Fade + beard",16,20,42,16),
+      cl("Trey Williams","Vic","Lineup",12,28,22,13),
+      cl("Felix Rodriguez","Vic","Taper",20,46,32,8),
+      cl("Nasir Cooper","Smooth","Fade",15,11,35,21),
+      cl("Bryce Holmes","Smooth","Fade",17,21,35,12),
+      cl("Quincy Adams","Smooth","Kids cut",30,72,18,5),
+      cl("Marco Diaz","Smooth","Fade + beard",18,15,45,17),
+      cl("Stephon Hill","Vic","Taper",19,24,30,10),
+      cl("Andre Pierre","Smooth","Lineup",13,7,24,19),
+      cl("Khalil Reed","Vic","Fade",16,38,34,9),
+      cl("Damon Frost","Smooth","Fade",15,13,33,15),
+    ]
+  },
+  {
+    name: "The Lineup", initial: "L",
+    barbers: ["Joey", "Sal", "Mike"],
+    clients: [
+      cl("Tommy Russo","Joey","Taper",21,16,28,18),
+      cl("Vinny Caruso","Joey","Fade",17,22,32,14),
+      cl("Sean Murphy","Joey","Fade + beard",19,44,44,9),
+      cl("Pete Kowalski","Sal","Taper",24,20,28,11),
+      cl("Danny O'Brien","Sal","Fade",16,12,30,23),
+      cl("Lucas Romano","Sal","Lineup",14,31,22,12),
+      cl("Aiden Walsh","Mike","Fade",15,10,32,20),
+      cl("Nick Greco","Mike","Taper + beard",22,27,46,10),
+      cl("Joey Esposito","Mike","Kids cut",27,58,20,6),
+      cl("Frank Moretti","Joey","Fade",18,14,32,16),
+      cl("Charlie Byrne","Sal","Fade",16,36,30,8),
+      cl("Matt Sullivan","Mike","Taper",20,19,28,13),
+    ]
+  },
+  {
+    name: "King's Barbershop", initial: "K",
+    barbers: ["King", "Junior"],
+    clients: [
+      cl("David Mensah","King","Fade",15,11,38,25),
+      cl("Samuel Boateng","King","Fade + beard",17,19,48,15),
+      cl("Emmanuel Osei","King","Taper",21,45,32,8),
+      cl("Kofi Owusu","Junior","Fade",16,13,36,19),
+      cl("Daniel Adjei","Junior","Lineup",13,15,24,17),
+      cl("Michael Appiah","Junior","Fade",18,39,36,10),
+      cl("Joseph Antwi","King","Kids cut",29,33,20,7),
+      cl("Prince Darko","Junior","Fade + beard",19,8,50,21),
+      cl("Eric Frimpong","King","Taper",22,24,30,11),
+      cl("Nana Yeboah","Junior","Fade",15,62,35,6),
+      cl("Kwesi Mensah","King","Fade",16,17,38,14),
+      cl("Yaw Boakye","Junior","Lineup",14,12,25,16),
+    ]
+  }
+];
+
+function cl(name, barber, service, cadence, lastVisit, spend, visits) {
+  return { name, barber, service, cadence, lastVisit, spend, visits,
+    ltv: spend * visits,
+    phone: "+1 " + (Math.random()<0.5?"347":"718") + " 555 0" + String(100+Math.floor(Math.random()*899)) };
+}
+
+/* ---------- STATE ---------- */
+let shopIdx = 0, barberFilter = "all", actFilter = "all", cFilter = "all";
+
+/* ---------- ESCALATION LOGIC (the core) ----------
+   active  : lastVisit <= cadence            -> no action
+   overdue : cadence < lastVisit <= 1.75x    -> FREE reminder, no discount
+   lapsed  : lastVisit > 1.75x cadence       -> promo win-back (20% off)
+*/
+function statusOf(c) {
+  if (c.lastVisit <= c.cadence) return "active";
+  if (c.lastVisit <= c.cadence * 1.75) return "overdue";
+  return "lapsed";
+}
+function daysOver(c) { return c.lastVisit - c.cadence; }
+
+/* ---------- HELPERS ---------- */
+const $ = id => document.getElementById(id);
+function ini(n){ return n.split(" ").map(p=>p[0]).join("").slice(0,2).toUpperCase(); }
+function avCls(s){ return s==="active"?"av-g":s==="overdue"?"av-a":"av-r"; }
+function shopClients(){
+  const cs = SHOPS[shopIdx].clients;
+  return barberFilter==="all" ? cs : cs.filter(c=>c.barber===barberFilter);
+}
+function notify(msg){
+  const n=$("notif"); n.textContent=msg; n.classList.add("show");
+  clearTimeout(n._t); n._t=setTimeout(()=>n.classList.remove("show"),2400);
+}
+
+/* ---------- RENDER: BARBER CHIPS ---------- */
+function renderChips(){
+  const shop = SHOPS[shopIdx];
+  $("barberChips").innerHTML =
+    `<button class="chip ${barberFilter==='all'?'active':''}" onclick="setBarber('all')">All chairs</button>` +
+    shop.barbers.map(b=>`<button class="chip ${barberFilter===b?'active':''}" onclick="setBarber('${b}')">${b}</button>`).join("");
+}
+function setBarber(b){ barberFilter=b; renderChips(); renderAll(); }
+
+/* ---------- RENDER: HOME ---------- */
+function renderHome(){
+  const shop = SHOPS[shopIdx];
+  const cs = shopClients();
+  const act = cs.filter(c=>statusOf(c)==="active");
+  const over = cs.filter(c=>statusOf(c)==="overdue").sort((a,b)=>daysOver(b)-daysOver(a));
+  const lap = cs.filter(c=>statusOf(c)==="lapsed").sort((a,b)=>b.ltv-a.ltv);
+  const avgSpend = Math.round(cs.reduce((s,c)=>s+c.spend,0)/Math.max(1,cs.length));
+  const recovered = Math.max(1, Math.round((over.length+lap.length)*0.45));
+  const texts = (over.length + lap.length) * 2 + 4;
+
+  $("shopAv").textContent = shop.initial;
+  $("shopName").textContent = shop.name;
+  $("navBadge").textContent = over.length + lap.length;
+
+  $("heroVal").textContent = recovered;
+  $("heroRev").textContent = "~$" + (recovered*avgSpend) + " estimated recovered revenue";
+  $("heroMargin").innerHTML =
+    `<span class="hm-dot" style="background:#4ADE9C"></span><span><b>${over.length}</b> reminded at no cost</span>
+     <span style="opacity:0.4">·</span>
+     <span class="hm-dot" style="background:var(--amber)"></span><span><b>${lap.length}</b> win-backs with a promo</span>`;
+
+  $("mActive").textContent = act.length;
+  $("mOverdue").textContent = over.length;
+  $("mLapsed").textContent = lap.length;
+  $("mTexts").textContent = texts;
+
+  /* Needs attention: overdue (free reminder) then lapsed (promo) */
+  const attn = [...over, ...lap];
+  $("attnCount").textContent = attn.length + " clients";
+  $("attnList").innerHTML = attn.length ? attn.map(c=>{
+    const s = statusOf(c);
+    const free = s === "overdue";
+    return `<div class="row">
+      <div class="av ${avCls(s)}">${ini(c.name)}</div>
+      <div class="ci">
+        <div class="cn">${c.name}</div>
+        <div class="cm">${c.service} · ${c.barber}'s chair · $${c.spend} avg</div>
+        <div class="cy" style="color:${free?'var(--amber-tx)':'var(--red-tx)'}">${daysOver(c)}d overdue · usually every ${c.cadence}d</div>
+      </div>
+      <div class="cr">
+        <span class="tier-tag" style="background:${free?'var(--green-bg)':'var(--amber-bg)'};color:${free?'var(--green-tx)':'var(--amber-tx)'}">${free?'✓ free reminder':'% promo win-back'}</span>
+        <br><button class="send-btn" onclick="sendNow('${c.name.replace(/'/g,"\\'")}',${free})">Send now</button>
+      </div>
+    </div>`;
+  }).join("") : `<div style="text-align:center;padding:22px;font-size:13px;color:var(--tx3)">Everyone's on schedule. Nice.</div>`;
+
+  /* Slow-day fill */
+  const slowDays = ["Tuesday","Wednesday","Monday","Tuesday"];
+  const slowDay = slowDays[shopIdx];
+  const targets = Math.min(attn.length, 8);
+  $("slowCard").innerHTML = `
+    <div class="slow-head">
+      <div class="slow-icon">📅</div>
+      <div>
+        <div class="slow-title">${slowDay} afternoons are running 60% empty</div>
+        <div class="slow-desc">Send a one-time flash offer to ${targets} overdue clients to fill those chairs. Projected: ${Math.max(2,Math.round(targets*0.4))} extra cuts ≈ $${Math.max(2,Math.round(targets*0.4))*avgSpend}.</div>
+      </div>
+    </div>
+    <button class="slow-btn" onclick="notify('Flash offer queued for ${targets} clients')">Fill my ${slowDay} — send flash offer</button>`;
+
+  /* Automated texts panel: the two tiers */
+  const exBarber = shop.barbers[0];
+  $("msgList").innerHTML = `
+    <div class="msg-card" style="border-left:3px solid var(--green)">
+      <div class="msg-head"><span class="msg-tier" style="color:var(--green-tx)">Tier 1 · Overdue → free reminder</span><span class="badge bg-green">$0 cost</span></div>
+      <div class="msg-body">"Yo {name}, it's ${exBarber} — you're about due for a fresh cut. Chair's open this week. Reply STOP to opt out."</div>
+      <div class="msg-foot"><span class="msg-rate">41% book within 3 days</span><span class="msg-cost" style="color:var(--green-tx)">No discount given</span></div>
+    </div>
+    <div class="msg-card" style="border-left:3px solid var(--amber)">
+      <div class="msg-head"><span class="msg-tier" style="color:var(--amber-tx)">Tier 2 · Lapsed → promo win-back</span><span class="badge bg-amber">20% off</span></div>
+      <div class="msg-body">"{name}, we miss you at ${shop.name}! Come back this week and get 20% off your cut. Reply STOP to opt out."</div>
+      <div class="msg-foot"><span class="msg-rate">23% come back</span><span class="msg-cost" style="color:var(--amber-tx)">Promo only when needed</span></div>
+    </div>
+    <div style="font-size:11px;color:var(--tx3);margin-top:10px;line-height:1.6">Clients escalate automatically: just past their cycle → free nudge. Way past it → we spend a discount to win them back. Your margin stays protected.</div>`;
+
+  /* Activity feed */
+  const pick = (arr,i)=>arr[i%Math.max(1,arr.length)];
+  const ACT = [
+    over[0] && {n:over[0].name, a:`Free reminder sent (no discount) · from ${over[0].barber}`, t:"2h ago", st:"sent", s:"overdue"},
+    lap[0] && {n:lap[0].name, a:"Promo win-back sent · 20% off", t:"5h ago", st:"sent", s:"lapsed"},
+    act[0] && {n:act[0].name, a:"Came back after a reminder — recovered", t:"yesterday", st:"recovered", s:"active"},
+    act[1] && {n:act[1].name, a:"Checked in via QR code", t:"2d ago", st:"sent", s:"active"},
+    over[1] && {n:over[1].name, a:`Free reminder queued · from ${over[1].barber}`, t:"queued tonight", st:"sent", s:"overdue"},
+    act[2] && {n:act[2].name, a:"Came back after a win-back promo — recovered", t:"3d ago", st:"recovered", s:"active"},
+  ].filter(Boolean);
+  const fa = actFilter==="all"?ACT:ACT.filter(a=>a.st===actFilter);
+  $("actList").innerHTML = fa.length ? fa.map(a=>`
+    <div class="row">
+      <div class="av ${avCls(a.s)}">${ini(a.n)}</div>
+      <div class="ci"><div class="cn">${a.n}</div><div class="cm">${a.a}</div></div>
+      <div class="cr"><span class="badge ${a.st==='recovered'?'bg-green':'bg-blue'}">${a.st}</span><div style="font-size:10px;color:var(--tx3);margin-top:4px">${a.t}</div></div>
+    </div>`).join("") : `<div style="text-align:center;padding:18px;font-size:13px;color:var(--tx3)">Nothing here yet.</div>`;
+}
+
+function sendNow(name, free){
+  notify(free ? `Free reminder sent to ${name}` : `Win-back promo sent to ${name}`);
+}
+
+/* ---------- RENDER: QR ---------- */
+function renderQR(){
+  const shop = SHOPS[shopIdx];
+  const cs = shop.clients;
+  $("qrShop").textContent = shop.name;
+  $("phShop").textContent = shop.name;
+  $("qrScans").textContent = Math.round(cs.length*2.3);
+  $("qrNew").textContent = "+" + Math.round(cs.length*0.5);
+  $("qrRet").textContent = Math.round(cs.length*1.8);
+  $("qrBox").innerHTML = qrSvg();
+  $("qrTips").innerHTML = [
+    ["🪑 Next to each chair","Client scans while you're brushing them off. Highest scan rate."],
+    ["💵 At the register","Catches everyone at payment — tape it right next to the card reader."],
+    ["🚪 On the door / mirror","Backup spot. Some guys scan while waiting."],
+  ].map(([t,d])=>`<div style="background:var(--surface2);border-radius:11px;padding:13px 14px"><div style="font-size:13px;font-weight:600;margin-bottom:3px">${t}</div><div style="font-size:12px;color:var(--tx2);line-height:1.5">${d}</div></div>`).join("");
+}
+function qrSvg(){
+  /* decorative deterministic QR-style pattern */
+  const P=[1,1,1,1,1,1,1,0,1,0,0,1,0,1,1,0,1,1,1,0,1,1,0,1,1,1,0,1,1,0,1,0,0,1,0,1,1,1,1,1,1,1,1,1,0,0,1,0,1,0,0,0,0,0,1,0,1,0,1,1,0,1,0,1,0,1,1,1,0,1,0,1,0,0,0,1,0,1,1,1,0,1,0,1,1,1,1,0,0,1,0,1,0,0,1,0,1,0,1,0,1,1,0,1,1,0,0,1,1,0,1,0,1,0,0,1,0,1,1,1,1];
+  let s='<svg viewBox="0 0 11 11" width="118" height="118" xmlns="http://www.w3.org/2000/svg">';
+  for(let i=0;i<121;i++){ if(P[i%P.length]) s+=`<rect x="${i%11}" y="${Math.floor(i/11)}" width="1" height="1" fill="#0F2044" rx="0.15"/>`; }
+  return s+"</svg>";
+}
+function phCheckin(){
+  const name = ($("phName").value.trim()||"Marcus").split(" ")[0];
+  $("phWelcome").textContent = "Welcome back, " + name + "!";
+  $("phForm").style.display="none";
+  $("phSuccess").style.display="block";
+  notify(name + " checked in via QR");
+}
+function phReset(){
+  $("phForm").style.display="block";
+  $("phSuccess").style.display="none";
+  $("phName").value=""; $("phPhone").value="";
+}
+
+/* ---------- RENDER: ANALYTICS ---------- */
+function renderClients(){
+  const cs = shopClients();
+  const f = cFilter==="all"?cs:cs.filter(c=>statusOf(c)===cFilter);
+  const sorted=[...f].sort((a,b)=>daysOver(b)-daysOver(a));
+  $("clientList").innerHTML = sorted.length ? sorted.map(c=>{
+    const s=statusOf(c);
+    const col = s==="active"?"var(--green)":s==="overdue"?"var(--amber)":"var(--red)";
+    const lab = s==="active"?"on cycle":s==="overdue"?daysOver(c)+"d overdue":"lapsed "+daysOver(c)+"d";
+    return `<div class="row">
+      <div class="av ${avCls(s)}">${ini(c.name)}</div>
+      <div class="ci">
+        <div class="cn">${c.name}</div>
+        <div class="cm">${c.service} · ${c.barber}'s chair · every ${c.cadence}d</div>
+        <div class="cy" style="color:${col}">${lab} · last visit ${c.lastVisit}d ago</div>
+      </div>
+      <div class="cr">
+        <div class="mono" style="font-size:13px;font-weight:600">$${c.ltv.toLocaleString()}</div>
+        <div style="font-size:10px;color:var(--tx3)">lifetime · $${c.spend}/cut</div>
+        <button class="send-btn" style="background:transparent;color:var(--b600);border:0.5px solid var(--bd)" onclick="notify('Visit logged for ${c.name.replace(/'/g,"\\'")}')">log visit</button>
+      </div>
+    </div>`;
+  }).join("") : `<div style="text-align:center;padding:22px;font-size:13px;color:var(--tx3)">No clients in this bucket.</div>`;
+}
+
+function renderROI(){
+  const shop=SHOPS[shopIdx], cs=shopClients();
+  const over=cs.filter(c=>statusOf(c)==="overdue"), lap=cs.filter(c=>statusOf(c)==="lapsed");
+  const avgSpend=Math.round(cs.reduce((s,c)=>s+c.spend,0)/Math.max(1,cs.length));
+  const recovered=Math.max(1,Math.round((over.length+lap.length)*0.45));
+  const fromFree=Math.max(1,Math.round(recovered*0.7));
+  const fromPromo=recovered-fromFree;
+  const texts=(over.length+lap.length)*2+4;
+
+  $("roiShop").textContent=shop.name;
+  $("roiCount").textContent=recovered;
+  $("roiRevLine").textContent=`Estimated $${recovered*avgSpend} in recovered revenue, based on $${avgSpend} average cut.`;
+  $("roiTexts").textContent=texts;
+  $("roiRate").textContent=Math.round(recovered/texts*100)+"%";
+  $("roiFree").textContent=fromFree;
+  $("roiPromo").textContent=fromPromo;
+  $("roiSummary").textContent=`This month Comeback sent ${texts} texts on your behalf. ${recovered} clients who'd gone quiet came back — about $${recovered*avgSpend} you would've missed. ${fromFree} of them came back from a free reminder (no discount given), and only ${fromPromo} needed a promo. Right now ${over.length} clients are overdue and queued for a free nudge, and ${lap.length} lapsed clients are getting the win-back offer this week.`;
+
+  const tv=[Math.max(1,recovered-2),Math.max(1,recovered-1),recovered,Math.round(recovered*1.3)];
+  const tmax=Math.max(...tv);
+  $("trendBars").innerHTML=["Dec","Jan","Feb","Mar (proj)"].map((m,i)=>`
+    <div class="bar-row"><div class="bar-label" style="width:64px">${m}</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${Math.round(tv[i]/tmax*100)}%;background:${i===3?'var(--b200)':'var(--b500)'}"></div></div>
+    <div class="bar-val">${tv[i]}</div></div>`).join("");
+
+  const watch=[...lap,...over].sort((a,b)=>b.ltv-a.ltv).slice(0,4);
+  $("watchList").innerHTML=watch.map(c=>{
+    const s=statusOf(c), free=s==="overdue";
+    return `<div class="row">
+      <div class="av ${avCls(s)}">${ini(c.name)}</div>
+      <div class="ci"><div class="cn">${c.name}</div><div class="cm">$${c.ltv.toLocaleString()} lifetime · ${daysOver(c)}d past their ${c.cadence}d cycle · ${c.barber}'s chair</div></div>
+      <div class="cr"><span class="badge ${free?'bg-amber':'bg-red'}">${s}</span><br><button class="send-btn" onclick="sendNow('${c.name.replace(/'/g,"\\'")}',${free})">send now</button></div>
+    </div>`;
+  }).join("");
+}
+
+function renderData(){
+  const shop=SHOPS[shopIdx], cs=shopClients();
+  const avgSpend=Math.round(cs.reduce((s,c)=>s+c.spend,0)/Math.max(1,cs.length));
+  const avgCycle=Math.round(cs.reduce((s,c)=>s+c.cadence,0)/Math.max(1,cs.length));
+  const sorted=[...cs].sort((a,b)=>b.ltv-a.ltv);
+  const top5=sorted.slice(0,5), topRev=top5.reduce((s,c)=>s+c.ltv,0);
+  const total=cs.reduce((s,c)=>s+c.ltv,0);
+  const over=cs.filter(c=>statusOf(c)==="overdue"), lap=cs.filter(c=>statusOf(c)==="lapsed");
+  const riskRev=Math.round(over.reduce((s,c)=>s+c.spend*2,0)+lap.reduce((s,c)=>s+c.spend*3,0));
+
+  $("dAov").textContent="$"+avgSpend;
+  $("dCycle").textContent=avgCycle+"d";
+  $("dTopShare").textContent=Math.round(topRev/Math.max(1,total)*100)+"%";
+  $("dRiskRev").textContent="$"+riskRev;
+
+  const DAYS=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+  const HOURS=["10a","11a","12p","1p","2p","3p","4p","5p"];
+  const seed=shopIdx+1;
+  const dayV=[14,10,12,16,24,38,30].map((v,i)=>v+((seed*7+i*3)%6));
+  const hourV=[4,6,11,15,17,16,18,21].map((v,i)=>v+((seed*5+i*2)%4));
+  const mD=Math.max(...dayV), mH=Math.max(...hourV);
+  const bD=dayV.indexOf(mD), bH=hourV.indexOf(mH), wD=dayV.indexOf(Math.min(...dayV));
+
+  $("dayBars").innerHTML=dayV.map((v,i)=>`<div class="bar-row"><div class="bar-label" style="width:28px">${DAYS[i]}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/mD*100)}%;background:${i===bD?'var(--b600)':'var(--b300)'}"></div></div><div class="bar-val">${v}</div></div>`).join("");
+  $("hourBars").innerHTML=hourV.map((v,i)=>`<div class="bar-row"><div class="bar-label" style="width:28px">${HOURS[i]}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/mH*100)}%;background:${i===bH?'var(--b600)':'var(--b300)'}"></div></div><div class="bar-val">${v}</div></div>`).join("");
+
+  let hmHtml='<div class="hm-grid"><div></div>'+DAYS.map(d=>`<div class="hm-day">${d}</div>`).join("");
+  for(let h=0;h<8;h++){
+    hmHtml+=`<div class="hm-lab">${HOURS[h]}</div>`;
+    for(let d=0;d<7;d++){
+      let v=24+((seed*13+h*7+d*11)%14);
+      if(d>=5)v+=12; if(h>=2&&h<=4)v+=8; if(d===5&&h>=2&&h<=5)v+=8;
+      const t=Math.min(1,(v-24)/30);
+      const r=Math.round(235-t*201),g=Math.round(242-t*210),b=Math.round(251-t*123);
+      hmHtml+=`<div class="hm-cell" style="background:rgb(${r},${g},${b});color:${t>0.55?'#fff':'var(--tx2)'}">$${v}</div>`;
+    }
+  }
+  $("heatmap").innerHTML=hmHtml+"</div>";
+
+  const hi=sorted.slice(0,Math.ceil(sorted.length/3));
+  const mid=sorted.slice(hi.length,hi.length*2);
+  const lo=sorted.slice(hi.length*2);
+  const hR=hi.reduce((s,c)=>s+c.ltv,0), mR=mid.reduce((s,c)=>s+c.ltv,0), lR=lo.reduce((s,c)=>s+c.ltv,0);
+  $("segBars").innerHTML=[["Regulars",hR,"var(--b600)"],["Steady",mR,"var(--b400)"],["Occasional",lR,"var(--b200)"]].map(([l,v,c])=>{
+    const p=Math.round(v/Math.max(1,total)*100);
+    return `<div class="bar-row"><div class="bar-label" style="width:66px">${l}</div><div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${c}"></div></div><div class="bar-val">${p}%</div></div>`;
+  }).join("");
+
+  const rr=[90,76,63,52];
+  $("retBars").innerHTML=["Dec","Jan","Feb","Mar"].map((m,i)=>`<div class="ret-row"><div class="ret-lab">${m}</div><div class="ret-track"><div class="ret-fill" style="width:${rr[i]}%;background:${rr[i]>75?'var(--green)':rr[i]>60?'var(--amber)':'var(--red)'}"></div></div><div class="ret-val">${rr[i]}%</div></div>`).join("");
+
+  $("insights").innerHTML=[
+    ["📅",`${DAYS[wD]} is your slowest day`,`Only ${dayV[wD]} cuts on an average ${DAYS[wD]} vs ${dayV[bD]} on ${DAYS[bD]}. The slow-day flash offer targets exactly this gap — projected recovery around $${Math.round(riskRev*0.3)}.`],
+    ["⭐",`Your top 5 regulars drive ${Math.round(topRev/Math.max(1,total)*100)}% of revenue`,`${top5[0]?top5[0].name:""} alone is worth $${top5[0]?top5[0].ltv.toLocaleString():""} lifetime. When a regular like that goes overdue, Comeback flags it the same day.`],
+    ["⏰",`Peak hour is ${HOURS[bH]}`,`Busiest window is ${HOURS[bH]} on ${DAYS[bD]}. If guys are walking out over the wait, that's repeat business lost — worth watching the line.`],
+  ].map(([ic,ti,de])=>`<div class="ins-card"><div class="ins-ic">${ic}</div><div><div class="ins-ti">${ti}</div><div class="ins-de">${de}</div></div></div>`).join("");
+}
+
+/* ---------- NAV / FILTERS ---------- */
+function showPage(id, el){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
+  $("page-"+id).classList.add("active"); el.classList.add("active");
+  $("barberChips").style.display = id==="qr" ? "none" : "flex";
+}
+function setAn(el,id){
+  document.querySelectorAll(".an-tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".an-sec").forEach(s=>s.classList.remove("active"));
+  el.classList.add("active"); $("an-"+id).classList.add("active");
+}
+function setAct(el,f){
+  actFilter=f;
+  el.parentElement.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active"); renderHome();
+}
+function setCFilter(el,f){
+  cFilter=f;
+  $("statusTabs").querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  el.classList.add("active"); renderClients();
+}
+function cycleShop(){
+  shopIdx=(shopIdx+1)%SHOPS.length; barberFilter="all";
+  renderChips(); renderAll();
+  notify("Switched to "+SHOPS[shopIdx].name);
+}
+
+/* ---------- MODAL ---------- */
+function openModal(){
+  $("mBarber").innerHTML=SHOPS[shopIdx].barbers.map(b=>`<option>${b}</option>`).join("");
+  $("overlay").classList.add("open");
+  setTimeout(()=>$("mName").focus(),120);
+}
+function closeModal(){
+  $("overlay").classList.remove("open");
+  ["mName","mPhone","mSpend"].forEach(id=>$(id).value="");
+}
+function logVisit(){
+  const name=$("mName").value.trim();
+  if(!name){$("mName").focus();return;}
+  const spend=parseInt($("mSpend").value)||30;
+  SHOPS[shopIdx].clients.unshift({
+    name, barber:$("mBarber").value, service:"Fade",
+    cadence:18, lastVisit:0, spend, visits:1, ltv:spend,
+    phone:$("mPhone").value.trim()||"+1 347 555 0100"
+  });
+  closeModal(); renderAll();
+  notify(name+" logged — marked active");
+}
+
+/* ---------- BOOT ---------- */
+function renderAll(){ renderHome(); renderQR(); renderClients(); renderROI(); renderData(); }
+renderChips(); renderAll();
+
+</script>
+</body>
+</html>
